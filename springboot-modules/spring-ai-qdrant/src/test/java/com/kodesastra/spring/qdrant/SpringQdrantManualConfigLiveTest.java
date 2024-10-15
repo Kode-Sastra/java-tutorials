@@ -21,5 +21,4 @@ public class SpringQdrantManualConfigLiveTest {
         assertNotNull(qdrantVectorStore);
         assertInstanceOf(QdrantVectorStore.class, qdrantVectorStore);
     }
-
 }

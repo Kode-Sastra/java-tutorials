@@ -30,7 +30,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public QdrantVectorStore qVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
+    public QdrantVectorStore qdrantVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
         return new QdrantVectorStore(qdrantClient, "books", embeddingModel, false);
     }
 
