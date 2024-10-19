@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+
+interface VectorStore {
+  +add(List<Document> documents):void
+  +similaritySearch(SearchRequest request):(List<Document> documents)
+  +similaritySearch(String query):(List<Document> documents)
+  +delete(List<String> idList):Optional<Boolean>
+
+}
+
+class QdrantVectorStore {
+  +QdrantVectorStore(QdrantClient client, String collectionName, \n EmbeddingClient embeddingClient)
+  +add(List<Document> documents):void
+  +similaritySearch(SearchRequest request):(List<Document> documents)
+  +similaritySearch(String query):(List<Document> documents)
+  +delete(List<String> idList):Optional<Boolean>
+}
+
+class QdrantClient {
+  +QdrantClient(QdrantGrpcClient grpcClient)
+
+}
+
+class QdrantGrpcClient {
+  +newBuilder():QdrantGrpcClient.Builder
+}
+
+class QdrantGrpcClient.Builder {
+  +QdrantGrpcClient.Builder(String host, int port,\n useTransportLayerSecurity boolean)
+  +build():QdrantGrpcClient
+  +withApiKey():QdrantGrpcClient.Builder
+}
+
+QdrantVectorStore -up-|> VectorStore:implements
+QdrantClient -down-> QdrantGrpcClient:uses
+QdrantVectorStore -up> QdrantClient:uses
+
+QdrantGrpcClient.Builder -down-+ QdrantGrpcClient:member of
+
+@enduml
