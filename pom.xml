@@ -47,9 +47,9 @@
                     <version>${maven-pmd.version}</version>
                     <configuration>
                         <failurePriority>5</failurePriority>
-                        <aggregate>false</aggregate>
+                        <!--<aggregate>false</aggregate>-->
                         <failOnViolation>true</failOnViolation> <!--Parthiv: Requires review-->
-                        <inputEncoding>utf-8</inputEncoding>
+<!--                        <inputEncoding>utf-8</inputEncoding>-->
                         <minimumTokens>100</minimumTokens>
                         <targetJdk>${java.version}</targetJdk>
                         <verbose>true</verbose>

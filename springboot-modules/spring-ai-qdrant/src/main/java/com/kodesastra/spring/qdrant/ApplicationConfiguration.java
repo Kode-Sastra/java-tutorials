@@ -1,5 +1,7 @@
 package com.kodesastra.spring.qdrant;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.qdrant.QdrantVectorStore;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,12 +16,16 @@ import io.qdrant.client.QdrantGrpcClient;
 @Profile("manual")
 public class ApplicationConfiguration {
 
+    private final Logger logger = LoggerFactory.getLogger(ApplicationConfiguration.class);
+
     @Value("${qdrant.host}")
     private String qdrantHost;
     @Value("${qdrant.port}")
     private int qdrantPort;
     @Value("${qdrant.api-key}")
     private String qdrantAPIKey;
+    @Value("${qdrant.collection-name}")
+    private String collection;
 
     @Bean
     public QdrantClient qdrantClient() {
@@ -31,15 +37,17 @@ public class ApplicationConfiguration {
 
     @Bean
     public QdrantVectorStore qdrantVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
-        return new QdrantVectorStore(qdrantClient, "books", embeddingModel, false);
+        return new QdrantVectorStore(qdrantClient, collection, embeddingModel, false) ;
     }
 
     private String getQdrantHost() {
+        logger.info("Qdrant host: {}", qdrantHost);
         //call a downstream service to fetch host
         return qdrantHost;
     }
 
     private int getQdrantPort() {
+        logger.info("Qdrant port: {}", qdrantPort);
         //call a downstream service to fetch port
         return qdrantPort;
     }

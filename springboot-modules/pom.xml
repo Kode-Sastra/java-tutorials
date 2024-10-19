@@ -40,6 +40,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.maven.plugin.version}</version>
             </plugin>
         </plugins>
 
@@ -48,6 +49,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <springboot.maven.plugin.version>3.3.4</springboot.maven.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.3.3</spring-boot.version>
         <spring-boot-test.version>3.3.3</spring-boot-test.version>
