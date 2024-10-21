@@ -1,4 +1,4 @@
-### spring-ai-qdrant:
+## spring-ai-qdrant:
     This module contains source codes related to the articles on Spring AI integration with Qdrant DB.
 
 ### Published Articles:
