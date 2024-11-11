@@ -1,0 +1,68 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+'skinparam BackgroundColor #F0EDDE
+skinparam BackgroundColor #f9f5f6
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #14b8a6
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+
+interface VectorStore {
+  +add(List<Document> documents):void
+  +similaritySearch(String query):List<Document>
+}
+
+class QdrantVectorStore {
+  +add(List<Document> documents):void
+  +similaritySearch(String query):List<Document>
+}
+
+class ParagraphPdfDocumentReader {
+  +get():List<Document>
+}
+
+class TokenTextSplitter {
+  +apply(List<Document>):List<Document>
+}
+class TextReader {
+}
+interface Supplier<List<Document>> {
+  +get():List<Document>
+}
+class Document {
+  getContent():String
+}
+
+interface Consumer<List<Document>> {
+  +accept(List<Document>)
+}
+
+interface DocumentReader {
+}
+
+interface DocumentWriter {
+}
+
+Consumer -up-> Document: uses
+Supplier -right-> Document: uses
+
+DocumentReader -down-> Supplier: extends
+ParagraphPdfDocumentReader -down-|> DocumentReader: implements
+ParagraphPdfDocumentReader -[hidden]down-> TokenTextSplitter
+DocumentReader -[hidden]left-> TokenTextSplitter
+TextReader -up-|> DocumentReader: implements
+QdrantVectorStore -down-|>VectorStore:implements
+DocumentWriter <-up-VectorStore:extends
+DocumentWriter -down->Consumer:extends
+@enduml
