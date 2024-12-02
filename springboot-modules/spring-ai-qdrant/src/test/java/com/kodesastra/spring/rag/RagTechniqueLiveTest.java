@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.reader.pdf.ParagraphPdfDocumentReader;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -110,7 +111,7 @@ public class RagTechniqueLiveTest {
         promptTemplate.add("context", vectorStore.similaritySearch(query));
         promptTemplate.add("query", query);
         String prompt = promptTemplate.render();
-
+        assertInstanceOf(OpenAiChatModel.class, chatModel);
         String chatResponse = chatModel.call(prompt);
         logger.info("Chat bot response: {}", chatResponse);
     }

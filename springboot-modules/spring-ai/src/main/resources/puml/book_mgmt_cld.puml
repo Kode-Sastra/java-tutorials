@@ -1,0 +1,76 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+
+class "BookManagementService" as bms {
+  +saveBook(Book book):Integer
+  +saveBook(Book book, Publication publication, Author author):Integer
+  +searchBooksByAuthor(String authorName):List<Book>
+}
+
+
+together {
+
+    class "Publication" as pn {
+      -publicationId:Integer
+      -name:String
+    }
+    class "Book" as bk {
+      -book_id:Integer
+      -name:String
+      -genre:String
+      -author:Author
+      -publication:Publication
+    }
+
+
+    class "Author" as ar {
+      -authorId:Integer
+      -name:String
+    }
+}
+
+
+together {
+
+    interface "PublicationRepository" as py {
+      +findByName(String name):Optional<Publication>
+    }
+    interface "BookRepository" as by {
+      +saveBook(Book book):Integer
+      +findByAuthorNameIgnoreCase(String authorName):Optional<List<Book>>
+    }
+    interface "AuthorRepository" as ay {
+      +findByName(String name): Optional<Author>
+    }
+}
+
+bms -down-> by:uses
+bms -down-> ay:uses
+bms -down-> py:uses
+
+by -down-> bk:depends on
+py -down-> pn:depends on
+ay -down-> ar:depends on
+
+by -[hidden]right-> py
+
+
+
+
+@enduml

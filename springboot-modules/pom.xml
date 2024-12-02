@@ -33,6 +33,7 @@
     </dependencies>
     <modules>
         <module>spring-ai-qdrant</module>
+        <module>spring-ai</module>
     </modules>
 
     <build>
@@ -53,6 +54,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.3.3</spring-boot.version>
         <spring-boot-test.version>3.3.3</spring-boot-test.version>
+        <spring-boot-jpa.version>3.3.2</spring-boot-jpa.version>
+        <spring-ai.version>1.0.0-SNAPSHOT</spring-ai.version>
     </properties>
 
 </project>

@@ -23,12 +23,12 @@ interface VectorStore {
   +similaritySearch(SearchRequest request):List<Document>
 }
 
-interface ChatClient {
-  +call(Prompt):ChatResponse
+interface ChatModel {
+  +call(String):String
 }
 
-class OpenAIChatClient {
-  +call(Prompt):ChatResponse
+class OpenAIChatModel {
+  +call(String):String
 }
 class PromptTemplate {
   +PromptTemplate(Resource)
@@ -44,8 +44,8 @@ class Document {
 }
 
 
-OpenAIChatClient -down-|> ChatClient:implements
-ChatClient -down-> Prompt:uses
+OpenAIChatModel -down-|> ChatModel:implements
+ChatModel -down-> Prompt:uses
 PromptTemplate -left-> Prompt: creates
 VectorStore -up-> Document:uses
 PromptTemplate -[hidden]up-> VectorStore
