@@ -53,18 +53,20 @@ public class BookManagementLiveTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"I would like to know at most two books "
-        + "written by the author Mark Twain, Stephen King and Leo Tolstoy.",
-        "Which publication has published the works of Mark Twain.",
-        "Insert the book Sense and Sensibility by the author Jane Austen, published by Penguin Books in the genre Romance."})
+        + "by the authors Mark Twain, Stephen King, and Leo Tolstoy.",
+          "Which publication has published the works of Mark Twain.",
+          "Insert the book Sense and Sensibility by the author Jane Austen, "
+        + "published by Penguin Books in the genre Romance."})
     public void whenUserGivesInstructions_thenRespond(String userInstruction) {
         String systemInstruction = "While answering,please stick to the context provided by the function.";
-        Prompt prompt  = new Prompt(userInstruction +  systemInstruction, OpenAiChatOptions
-            .builder()
+        OpenAiChatOptions openAiChatOptions = OpenAiChatOptions.builder()
             .withFunctions(Set.of("searchBooksByAuthorFn", "insertBookFn", "getPublicationFn", "getAuthorFn"))
-            .build()
-        );
+            .build();
+        Prompt prompt = new Prompt(userInstruction + systemInstruction, openAiChatOptions);
         ChatResponse chatResponse = chatModel.call(prompt);
-        String response = chatResponse.getResult().getOutput().getContent();
+        String response = chatResponse.getResult()
+            .getOutput()
+            .getContent();
         logger.info("Response from OpenAI LLM: {}", response);
     }
 }

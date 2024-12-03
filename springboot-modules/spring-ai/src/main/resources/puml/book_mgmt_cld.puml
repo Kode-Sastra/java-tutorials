@@ -17,7 +17,7 @@ skinparam ClassBorderColor black
 BackgroundColor #FFFFFF
 }
 
-class "BookManagementService" as bms {
+class "BookManagementService<@Service>" as bms {
   +saveBook(Book book):Integer
   +saveBook(Book book, Publication publication, Author author):Integer
   +searchBooksByAuthor(String authorName):List<Book>
@@ -26,11 +26,11 @@ class "BookManagementService" as bms {
 
 together {
 
-    class "Publication" as pn {
+    class "Publication<@Bean>" as pn {
       -publicationId:Integer
       -name:String
     }
-    class "Book" as bk {
+    class "Book<@Bean>" as bk {
       -book_id:Integer
       -name:String
       -genre:String
@@ -39,23 +39,25 @@ together {
     }
 
 
-    class "Author" as ar {
+    class "Author<@Bean>" as ar {
       -authorId:Integer
       -name:String
     }
 }
 
 
+
+
 together {
 
-    interface "PublicationRepository" as py {
+    interface "PublicationRepository<@Repository>" as py {
       +findByName(String name):Optional<Publication>
     }
-    interface "BookRepository" as by {
+    interface "BookRepository<@Repository>" as by {
       +saveBook(Book book):Integer
       +findByAuthorNameIgnoreCase(String authorName):Optional<List<Book>>
     }
-    interface "AuthorRepository" as ay {
+    interface "AuthorRepository<@Repository>" as ay {
       +findByName(String name): Optional<Author>
     }
 }

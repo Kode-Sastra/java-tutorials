@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+allowmixing
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+
+together {
+    class "BookManagementConfiguration<@Configuration>" as bmc {
+      +<i>@Bean\ninsertBookFn(BookManagementService bookManagementService)\n:Function<InsertBookRequest, Integer>
+      ..
+      +<i>@Bean\ngetPublicationFn(BookManagementService bookManagementService)\n:Function<GetPublicationRequest, Publication>
+      ..
+      +<i>@Bean\ngetAuthorFn(BookManagementService bookManagementService)\n:Function<GetAuthorRequest, Author>
+      ..
+      +<i>@Bean\nsearchBooksByAuthorFn(BookManagementService bookManagementService)\n:Function<SearchBookRequestByAuthor, List<Book>>
+      ..
+    }
+    class "BookManagementService<@Service>" as bms {
+      +saveBook(Book book):Integer
+      +saveBook(Book book, Publication publication, Author author):Integer
+      +searchBooksByAuthor(String authorName):List<Book>
+    }
+}
+
+together {
+
+    class "InsertBookRequest" as it << (r,lightblue)>> {
+      +book:Book
+    }
+
+    class "SearchBookRequestByAuthor" as srr << (r,lightblue)>> {
+     +authorName:String
+    }
+
+    class "GetPublicationRequest" as gpt << (r,lightblue)>> {
+     +publicationName:String
+    }
+
+    class "GetAuthorRequest" as grt << (r,lightblue)>> {
+     +authorName:String
+    }
+}
+
+bmc -down-> bms:depends on
+bmc -up-> srr:depends on
+bmc -up-> gpt:depends on
+bmc -up-> grt:depends on
+bmc -up-> it:depends on
+@enduml

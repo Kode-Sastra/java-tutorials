@@ -15,7 +15,6 @@ import com.kodesastra.ai.bookmgmt.entity.Publication;
 @Configuration
 @Profile("fn")
 public class BookManagementConfiguration {
-
     @Bean
     @Description("insert a book. The book id is identified by bookId. "
         + "The book name is identified by name. "
