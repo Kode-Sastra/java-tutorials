@@ -54,11 +54,14 @@ public class BookManagementLiveTest {
     @ParameterizedTest
     @ValueSource(strings = {"I would like to know at most two books "
         + "by the authors Mark Twain, Stephen King, and Leo Tolstoy.",
-          "Which publication has published the works of Mark Twain.",
+          "I would like to know the names of the publications who have published Mark Twain's work. ",
           "Insert the book Sense and Sensibility by the author Jane Austen, "
-        + "published by Penguin Books in the genre Romance."})
+        + "published by Penguin Books in the genre Romance.",
+        "Insert the book The ABC Murders by the author Agatha Christie, "
+        + "published by Penguin Books in the genre Mystery."})
     public void whenUserGivesInstructions_thenRespond(String userInstruction) {
-        String systemInstruction = "While answering,please stick to the context provided by the function.";
+        String systemInstruction = "While answering, please stick to the context provided by the function."
+            + "If the book with the same title and author already exists, please abort the insert and inform the same.";
         OpenAiChatOptions openAiChatOptions = OpenAiChatOptions.builder()
             .withFunctions(Set.of("searchBooksByAuthorFn", "insertBookFn", "getPublicationFn", "getAuthorFn"))
             .build();

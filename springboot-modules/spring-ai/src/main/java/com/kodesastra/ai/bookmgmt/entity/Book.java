@@ -1,12 +1,12 @@
 package com.kodesastra.ai.bookmgmt.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
@@ -34,12 +34,12 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Author author;
 
     @ManyToOne
     @JoinColumn(name = "publication_id", nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Publication publication;
 
     public Author getAuthor() {

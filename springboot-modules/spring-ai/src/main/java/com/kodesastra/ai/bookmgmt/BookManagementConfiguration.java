@@ -43,7 +43,7 @@ public class BookManagementConfiguration {
     }
 
     @Bean
-    @Description("Fetch all books written by a author by his name. "
+    @Description("Fetch all books written by an author by his name. "
         + "The author name is identified by authorName."
         + "If you don't find any books for the author just respond"
         + "- Sorry, I could not find anything related to the author")
