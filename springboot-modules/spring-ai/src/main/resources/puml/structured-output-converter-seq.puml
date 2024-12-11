@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+!theme crt-amber
+skinparam sequenceMessageAlign direction
+'skinparam BackgroundColor #f9f5f6
+skinparam handwritten false
+'skinparam SequenceArrowThickness 1
+
+'skinparam ArrowFontColor #gray
+skinparam sequence {
+ParticipantPadding 65
+}
+
+autonumber
+participant "\tApp-1\t" as app1
+participant "\tLLM\t      " as llm
+participant "\tApp-2\t" as app2
+
+activate app1
+app1 --> app1: \t       build \n<b><i>StructuredOutputConverter</b>
+
+app1 -> llm: \t    raw input\n\t          +\n         format instruction \nfrom <b><i>StructuredOutputConverter
+activate llm
+||30||
+llm --> app1: formatted response
+deactivate llm
+||30||
+app1 --> app1: <b><i>StructuredOutputConverter</i></b> \n\tconverts to POJO
+||20||
+app1 --> app1: additional conversions\n        on POJO
+||20||
+app1 -> app2: new object/message\n      from POJO
+activate app2
+||20||
+app2 --> app1: final response
+
+deactivate app2
+@enduml
