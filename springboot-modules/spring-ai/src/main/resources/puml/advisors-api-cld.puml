@@ -1,0 +1,96 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+'scale 500 width
+'scale 500 height
+allowmixing
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+skinparam class {
+'FontSize 12
+'AttributeFontSize 10
+'ArrowFontSize 10
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+interface ChatClient {
+  +ChatClient.ChatClientRequestSpec
+  +builder():ChatClient.Builder
+  +prompt():ChatClient.ChatClientRequestSpec
+}
+
+interface "ChatClient.ChatClientRequestSpec" as ccrs {
+  +advisors(Advisor... advisors):ChatClient.ChatClientRequestSpec
+}
+class SimpleLoggerAdvisor {
+  +SimpleLoggerAdvisor(int order)
+  +aroundCall(AdvisedRequest, CallAroundAdvisorChain)\n:AdvisedResponse
+  +getName():String
+  +getOrder():int
+}
+class MessageChatMemoryAdvisor {
+  +MessageChatMemoryAdvisor(int order)
+  +aroundCall(AdvisedRequest, CallAroundAdvisorChain)\n:AdvisedResponse
+  +getName():String
+  +getOrder():int
+}
+interface "CallAroundAdvisor" as caa {
+  +aroundCall(AdvisedRequest, CallAroundAdvisorChain)\n:AdvisedResponse
+  +getName():String
+  +getOrder():int
+}
+interface "CallAroundAdvisorChain" as cac {
+  +nextAroundCall(AdvisedRequest)\n:AdvisedResponse
+}
+interface "StreamAroundAdvisor" as saa {
+  +aroundStream(AdvisedRequest advisedRequest, StreamAroundAdvisorChain chain)\n:Flux<AdvisedResponse>
+}
+interface "StreamAroundAdvisorChain" as sac {
+  +nextAroundStream(AdvisedRequest advisedRequest)\n:Flux<AdvisedResponse>
+}
+class "AdvisedRequest" as arq << (r,lightblue)>> {
+  +adviseContext():Map<String, Object>
+  +advisors():List<Advisor>
+  +builder():AdvisedRequest.Builder
+  +chatModel():ChatModel
+  +userText():String
+}
+class "AdvisedResponse" as ars << (r,lightblue)>> {
+  +adviseContext():Map<String, Object>
+    +builder():AdvisedResponse.Builder
+    +response():ChatResponse
+}
+
+class SafeGuardAdvisor {
+  +SafeGuardAdvisor(List<String> sensitiveWords, String failureResponse, int order)
+  +aroundCall(AdvisedRequest, CallAroundAdvisorChain)\n:AdvisedResponse
+  +getName():String
+  +getOrder():int
+}
+
+SimpleLoggerAdvisor -up-|> caa:implements
+MessageChatMemoryAdvisor -up-|> caa:implements
+SafeGuardAdvisor -up-|> caa:implements
+caa -up-> cac:uses
+caa -right-> arq:uses
+caa -left-> ars:uses
+saa -down-> sac:uses
+SimpleLoggerAdvisor -right[hidden]-> MessageChatMemoryAdvisor:sets
+SimpleLoggerAdvisor -down-|> saa:implements
+MessageChatMemoryAdvisor -down-|> saa:implements
+SafeGuardAdvisor -down-|> saa:implements
+ccrs --> caa:sets
+ccrs --> saa:sets
+ccrs -right[hidden]-> ars
+ChatClient -up-> ccrs:uses
+ChatClient -down[hidden]-> SimpleLoggerAdvisor
+
+@enduml
