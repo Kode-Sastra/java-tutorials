@@ -1,4 +1,4 @@
-package com.kodesastra.ai.bookmgmt;
+package com.kodesastra.ai.advisors;
 
 import java.util.List;
 
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.kodesastra.ai.advisors.CacheLlmResponseAdvisor;
-import com.kodesastra.ai.advisors.LlmUsageLimitAdvisor;
 import com.kodesastra.ai.advisors.entity.User;
 
 @SpringBootTest

@@ -34,6 +34,7 @@ public class CacheLlmResponseAdvisor implements CallAroundAdvisor {
         return response;
     }
 
+    @SuppressWarnings("unused")
     private void cacheResponse(User user, String userQuery, AdvisedResponse response) {
         // cache the response
         LOGGER.info("Caching the response for user: {}", user.getUserName());
