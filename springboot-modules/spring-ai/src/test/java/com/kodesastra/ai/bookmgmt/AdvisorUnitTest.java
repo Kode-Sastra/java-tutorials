@@ -26,24 +26,22 @@ public class AdvisorUnitTest {
     ChatModel chatModel;
 
     @Test
-    void test() {
-        LOGGER.info("AdvisorUnitTest: test");
-        // or create a ChatClient with the default builder settings:
+    void whenConfigureChatClientWithAdvisors_thenInterceptLLMCallsWithAdvisors() {
         ChatClient chatClient = ChatClient.create(chatModel);
-        //set the User object in the AdviseContext
-        User currentUser = new User("7012", "Parthiv Pradhan");
+
+        User currentUser = new User("7012", "James");
 
         ChatResponse chatResponse = chatClient.prompt()
-            .user("Tell me a small Joke")
-            .advisors( advisorSpec -> advisorSpec
-                .advisors(List.of(new CacheLlmResponseAdvisor(0), new LlmUsageLimitAdvisor(1)))
+            .user("What is LLM?")
+            .advisors(advisorSpec -> advisorSpec.advisors(
+                    List.of(new LlmUsageLimitAdvisor(0),
+                        new CacheLlmResponseAdvisor(1)))
                 .param("user", currentUser))
             .call()
             .chatResponse();
         LOGGER.info("chatResponse: {}", chatResponse.getResult()
             .getOutput()
             .getContent());
-
     }
 
 }

@@ -15,9 +15,11 @@ public class LlmUsageLimitAdvisor implements CallAroundAdvisor {
     private static final Logger LOGGER = LoggerFactory.getLogger(LlmUsageLimitAdvisor.class);
 
     private int order;
+
     public LlmUsageLimitAdvisor(int order) {
         this.order = order;
     }
+
     @Override
     public AdvisedResponse aroundCall(AdvisedRequest advisedRequest, CallAroundAdvisorChain chain) {
         LOGGER.info("LlmUsageLimitAdvisor: aroundCall");
@@ -26,17 +28,22 @@ public class LlmUsageLimitAdvisor implements CallAroundAdvisor {
 
         if(isUserUsageWithInLimit(user)) {
             AdvisedResponse response = chain.nextAroundCall(advisedRequest);
+            updateUsage(user);
+            LOGGER.info("Usage updated for {}", user.getUserName());
             return response;
         } else {
             LOGGER.warn("User usage limit exceeded for user: {}", user.getUserName());
             throw new RuntimeException("User usage limit exceeded");
-
         }
     }
 
     private boolean isUserUsageWithInLimit(User user) {
         LOGGER.info("Checking user usage limit for user: {}", user.getUserName());
         return true;
+    }
+
+    private void updateUsage(User user) {
+        LOGGER.info("Updating user usage for user: {}", user.getUserName());
     }
 
     @Override
