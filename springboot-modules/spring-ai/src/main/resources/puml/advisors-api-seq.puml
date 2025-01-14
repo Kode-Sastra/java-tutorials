@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+!theme crt-green
+skinparam sequenceMessageAlign direction
+'skinparam BackgroundColor #f9f5f6
+skinparam handwritten false
+'skinparam SequenceArrowThickness 1
+'skinparam SequenceParticipantBorderThickness 1
+'skinparam ArrowFontColor #gray
+skinparam sequence {
+ParticipantPadding 50
+ParticipantBorderThickness 1
+}
+
+autonumber
+participant " ChatClient " as cc
+participant " LlmUsageLimitAdvisor " as usa
+participant " CacheLlmResponseAdvisor " as cra
+participant " LLM " as llm
+activate llm
+activate cc
+cc -> usa: request
+
+activate usa
+usa -> usa:aroundCall()
+usa -> usa:isUserUsageWithInLimit()
+
+usa -> usa: CallAroundAdvisorChain#nextAroundCall()
+
+usa -> cra:request
+activate cra
+cra -> cra:aroundCall()
+
+
+cra -> llm: Final user query
+llm --> cra: query response
+cra -> cra: cacheResponse()
+
+cra --> usa: response
+deactivate cra
+usa --> usa: updateUsage()
+
+usa --> cc: response
+deactivate usa
+deactivate cc
+
+@enduml
