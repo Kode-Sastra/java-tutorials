@@ -1,5 +1,10 @@
 package com.kodesastra.ai.bookmgmt;
 
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
+
+import java.util.List;
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,16 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.*;
-
-import java.util.List;
-import java.util.Set;
 
 import com.kodesastra.ai.bookmgmt.entity.Author;
 import com.kodesastra.ai.bookmgmt.entity.Book;
@@ -62,14 +62,19 @@ public class BookManagementLiveTest {
     public void whenUserGivesInstructions_thenRespond(String userInstruction) {
         String systemInstruction = "While answering, please stick to the context provided by the function."
             + "If the book with the same title and author already exists, please abort the insert and inform the same.";
-        OpenAiChatOptions openAiChatOptions = OpenAiChatOptions.builder()
+        //FUnction Calling is deprecated by Spring AI, instead they are using Tools
+/*        OpenAiChatOptions openAiChatOptions = OpenAiChatOptions.builder()
             .withFunctions(Set.of("searchBooksByAuthorFn", "insertBookFn", "getPublicationFn", "getAuthorFn"))
+            .build();*/
+        ToolCallingChatOptions toolCallingChatOptions = ToolCallingChatOptions.builder()
+            .toolNames(Set.of("searchBooksByAuthorFn", "insertBookFn", "getPublicationFn", "getAuthorFn"))
             .build();
-        Prompt prompt = new Prompt(userInstruction + systemInstruction, openAiChatOptions);
+        Prompt prompt = new Prompt(userInstruction + systemInstruction, toolCallingChatOptions);
+
         ChatResponse chatResponse = chatModel.call(prompt);
         String response = chatResponse.getResult()
             .getOutput()
-            .getContent();
+            .getText();
         logger.info("Response from OpenAI LLM: {}", response);
     }
 }

@@ -1,0 +1,74 @@
+@startuml
+'https://plantuml.com/class-diagram
+!pragma layout smetana
+set namespaceSeparator none
+allowmixing
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+
+interface "ImageModel" as im{
+  +call(ImagePrompt): ImageResponse
+}
+interface "ImageOptions" as io {
+  +getHeight(): Integer
+  +getWidth(): Integer
+  +getModel(): String
+  .. <i>more methods ..
+}
+class "ImagePrompt" as ip {
+  ImagePrompt(String instructions, ImageOptions imageOptions)
+  .. <i>more constructors and methods ..
+}
+class "ImageResponse" as ir {
+  +getResult(): ImageGeneration
+  +getResults(): List<ImageGeneration>
+  +getMetadata(): ImageResponseMetadata
+}
+
+class "ImageGeneration" as ig {
+  +getOutput():Image
+}
+class "Image" as i {
+  +getUrl(): String
+}
+
+class "OpenAiImageModel" as om {
+  .. <i>implemented methods ..
+}
+
+class "StabilityAiImageModel" as stam {
+  .. <i>implemented methods ..
+}
+
+class "OpenAiImageOptions" as oio {
+  .. <i>implemented methods ..
+}
+class "StabilityAiImageOptions" as sio {
+  .. <i>implemented methods ..
+}
+
+om -up-|> im: implements
+stam -up-|> im: implements
+im -down-> ip: uses
+im -up-> ir: uses
+ip -down-> io: uses
+
+oio -left-|> io: implements
+sio -right-|> io: implements
+
+ir -left-> ig: encapsulates
+ig -down-> i: encapsulates
+@enduml

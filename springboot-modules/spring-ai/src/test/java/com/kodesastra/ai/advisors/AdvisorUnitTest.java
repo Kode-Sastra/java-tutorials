@@ -38,8 +38,7 @@ public class AdvisorUnitTest {
             .call()
             .chatResponse();
         LOGGER.info("chatResponse: {}", chatResponse.getResult()
-            .getOutput()
-            .getContent());
+            .getOutput().getText());
     }
 
 }
