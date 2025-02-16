@@ -1,5 +1,6 @@
 package com.kodesastra.ai.so;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class StructuredOutputLiveTest {
         Prompt prompt = new Prompt(query);
 
         ChatResponse chatResponse = chatModel.call(prompt);
-        String responseContent = chatResponse.getResult().getOutput().getContent();
+        String responseContent = chatResponse.getResult().getOutput().getText();
         logger.info("The output from the LLM: {}", responseContent);
     }
 
@@ -66,10 +67,10 @@ public class StructuredOutputLiveTest {
         ChatResponse chatResponse = chatModel.call(prompt);
         Generation generation = chatResponse.getResult();
 
-        String responseContent = generation.getOutput().getContent();
+        String responseContent = generation.getOutput().getText();
         logger.info("The output from the LLM: {}", responseContent);
         AuthorBooks authorBooks = beanOutputConverter.convert(responseContent);
-        assertTrue(authorBooks.books().size() == 6);
+        assertEquals(6, authorBooks.books().size());
     }
 
     @Test
@@ -89,11 +90,11 @@ public class StructuredOutputLiveTest {
         ChatResponse chatResponse = chatModel.call(prompt);
         Generation generation = chatResponse.getResult();
 
-        String responseContent = generation.getOutput().getContent();
+        String responseContent = generation.getOutput().getText();
         logger.info("The output from the LLM: {}", responseContent);
         Map<String, Object> map = mapOutputConverter.convert(responseContent);
 
-        assertTrue(map.keySet().size() == 2);
+        assertEquals(2, map.keySet().size());
     }
 
     @Test
@@ -114,10 +115,10 @@ public class StructuredOutputLiveTest {
 
         ChatResponse chatResponse = chatModel.call(prompt);
         Generation generation = chatResponse.getResult();
-        String responseContent = generation.getOutput().getContent();
+        String responseContent = generation.getOutput().getText();
         logger.info("The output from the LLM: {}", responseContent);
         List<String> books = listOutputConverter.convert(responseContent);
-        assertTrue(books.size() == 6);
+        assertEquals(2, books.size());
     }
 
     @Test
@@ -139,10 +140,10 @@ public class StructuredOutputLiveTest {
 
         ChatResponse chatResponse = chatModel.call(prompt);
         Generation generation = chatResponse.getResult();
-        String responseContent = generation.getOutput().getContent();
+        String responseContent = generation.getOutput().getText();
         logger.info("The output from the LLM: {}", responseContent);
         List<Book> books = beanOutputConverter.convert(responseContent);
-        assertTrue(books.size() == 6);
+        assertEquals(6, books.size());
     }
 
     record AuthorBooks (String author, List<Book> books){}

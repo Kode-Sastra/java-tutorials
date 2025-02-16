@@ -61,11 +61,12 @@ public class SpringQdrantManualConfigLiveTest {
     }
 
     private List<String> getIds(String query, String filter) {
-        List<Document> resultDocuments = qdrantVectorStore.similaritySearch(SearchRequest.defaults()
-            .withQuery(query)
-            .withTopK(2)
-            .withFilterExpression(filter)
-            .withSimilarityThreshold(0.5));
+        List<Document> resultDocuments = qdrantVectorStore.similaritySearch(SearchRequest.builder()
+            .query(query)
+            .topK(2)
+            .filterExpression(filter)
+            .similarityThreshold(0.5)
+            .build());
         return resultDocuments.stream()
             .map(Document::getId)
             .toList();
@@ -117,11 +118,12 @@ public class SpringQdrantManualConfigLiveTest {
     @Test
     @Order(3)
     void givenQdrantDB_whenCallSimilaritySearchOfVectorStore_thenSearchSuccessfully() {
-        List<Document> resultDocuments = qdrantVectorStore.similaritySearch(SearchRequest.defaults()
-            .withQuery("Mindfulness meditation")
-            .withTopK(2)
-            .withFilterExpression("Author == 'Shri Shri'")
-            .withSimilarityThreshold(0.5));
+        List<Document> resultDocuments = qdrantVectorStore.similaritySearch(SearchRequest.builder()
+            .query("Mindfulness meditation")
+            .topK(2)
+            .filterExpression("Author == 'Shri Shri'")
+            .similarityThreshold(0.5)
+            .build());
         assertFalse(resultDocuments.isEmpty());
         resultDocuments.forEach(e -> assertEquals("Shri Shri", e.getMetadata().get("Author")));
     }

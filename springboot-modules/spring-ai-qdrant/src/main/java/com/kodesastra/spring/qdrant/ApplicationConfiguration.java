@@ -37,7 +37,9 @@ public class ApplicationConfiguration {
 
     @Bean
     public QdrantVectorStore qdrantVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
-        return new QdrantVectorStore(qdrantClient, collection, embeddingModel, false) ;
+        return QdrantVectorStore.builder(qdrantClient, embeddingModel)
+            .collectionName(collection)
+            .build();
     }
 
     private String getQdrantHost() {
