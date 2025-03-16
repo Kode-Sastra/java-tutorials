@@ -1,0 +1,71 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+
+interface "Model<AudioTranscriptionPrompt, AudioTranscriptionResponse>" as m {
+}
+
+class "OpenAiAudioTranscriptionModel" as otm {
+   +call(AudioTranscriptionPrompt transcriptionPrompt):AudioTranscriptionResponse
+   +call(Resource audioResource):String
+}
+class "AzureOpenAiAudioTranscriptionModel" as azotm {
+   +call(AudioTranscriptionPrompt transcriptionPrompt):AudioTranscriptionResponse
+   +call(Resource audioResource):String
+}
+
+class "AudioTranscriptionResponse" as ar {
+   +getResult():AudioTranscription
+   +getMetadata():AudioTranscriptionResponseMetadata
+}
+
+class "AudioTranscriptionPrompt" as atp {
+   +AudioTranscriptionPrompt(Resource audioFile)
+   +AudioTranscriptionPrompt(Resource audioResource, AudioTranscriptionOptions modelOptions)
+}
+
+interface "AudioTranscriptionOptions" as to {
+}
+
+class "OpenAiAudioTranscriptionOptions" as oto {
+  +builder():OpenAiAudioTranscriptionOptions.Builder
+  +setLanguage():void
+  +setModel():void
+  +setTemperature():void
+}
+
+class "AzureOpenAiAudioTranscriptionOptions" as azoto {
+    +builder():AzureOpenAiAudioTranscriptionOptions.Builder
+    +setLanguage():void
+    +setModel():void
+    +setTemperature():void
+}
+
+oto -right-|> to:implements
+azoto -left-|> to:implements
+otm -up-|> m:implements
+azotm -up-|> m:implements
+
+atp --> to:uses
+otm --> atp:uses
+azotm --> atp:uses
+otm -up-> ar:returns
+azotm -up-> ar:returns
+
+
+@enduml
