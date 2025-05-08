@@ -1,7 +1,6 @@
 package com.kodesastra.ai.so;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -57,11 +56,15 @@ public class StructuredOutputLiveTest {
             Please provide the title, author name and publishing date.
             {format}
             """;
-
-        PromptTemplate promptTemplate
+        PromptTemplate promptTemplate = PromptTemplate.builder()
+            .template(userInputTemplate)
+            .variables(Map.of("author", "Mark Twain", "format", beanOutputConverter.getFormat()))
+            .build();
+ //Below causing compilation issue, please use the above
+ /*       PromptTemplate promptTemplate
             = new PromptTemplate(userInputTemplate,
             Map.of("author","Mark Twain", "format", beanOutputConverter.getFormat()));
-
+*/
         Prompt prompt = new Prompt(promptTemplate.createMessage());
 
         ChatResponse chatResponse = chatModel.call(prompt);
@@ -82,9 +85,16 @@ public class StructuredOutputLiveTest {
             Please provide the title, author name and publishing date.
             {format}
             """;
-        PromptTemplate promptTemplate
-            = new PromptTemplate(userInputTemplate,
-            Map.of("format", mapOutputConverter.getFormat()));
+
+        PromptTemplate promptTemplate = PromptTemplate.builder()
+            .template(userInputTemplate)
+            .variables(Map.of("format", mapOutputConverter.getFormat()))
+            .build();
+
+        //Below causing compilation issue, please use the above
+//        PromptTemplate promptTemplate
+//            = new PromptTemplate(userInputTemplate,
+//            Map.of("format", mapOutputConverter.getFormat()));
 
         Prompt prompt = new Prompt(promptTemplate.createMessage());
         ChatResponse chatResponse = chatModel.call(prompt);
@@ -106,10 +116,17 @@ public class StructuredOutputLiveTest {
             Please provide only the title.
             {format}
             """;
+        PromptTemplate promptTemplate = PromptTemplate.builder()
+            .template(userInputTemplate)
+            .variables(Map.of("author","Mark Twain", "format", listOutputConverter.getFormat()))
+            .build();
 
+        //Below causing compilation issue, please use the above
+/*
         PromptTemplate promptTemplate
             = new PromptTemplate(userInputTemplate,
             Map.of("author","Mark Twain", "format", listOutputConverter.getFormat()));
+*/
 
         Prompt prompt = new Prompt(promptTemplate.createMessage());
 
@@ -118,7 +135,7 @@ public class StructuredOutputLiveTest {
         String responseContent = generation.getOutput().getText();
         logger.info("The output from the LLM: {}", responseContent);
         List<String> books = listOutputConverter.convert(responseContent);
-        assertEquals(2, books.size());
+        assertEquals(6, books.size());
     }
 
     @Test
@@ -127,14 +144,22 @@ public class StructuredOutputLiveTest {
             = new BeanOutputConverter(new ParameterizedTypeReference<List<Book>>() {
         });
         String userInputTemplate = """
-            Can you suggest 6 popular works of the Author {author}.
-            Please provide the title, author name and publishing date.
+            Can you suggest 6 popular works of the Author {author}
+            Please provide only the title, author name and publishing date.
+            Do not include any metadata, schema, or type information.
             {format}
             """;
+        PromptTemplate promptTemplate = PromptTemplate.builder()
+            .template(userInputTemplate)
+            .variables(Map.of("author","Mark Twain", "format", beanOutputConverter.getFormat()))
+            .build();
 
+        //Below causing compilation issue, please use the above
+/*
         PromptTemplate promptTemplate
             = new PromptTemplate(userInputTemplate,
             Map.of("author","Mark Twain", "format", beanOutputConverter.getFormat()));
+*/
 
         Prompt prompt = new Prompt(promptTemplate.createMessage());
 

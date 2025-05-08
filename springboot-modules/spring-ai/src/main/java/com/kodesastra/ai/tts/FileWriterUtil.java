@@ -13,11 +13,11 @@ public class FileWriterUtil {
      * Writes the given byte array to a file at the given path under the runtime classpath.
      *
      * @param content the file content
-     * @param path relative path under the classpath root, e.g., "output/poem.mp3"
+     * @param path relative path under the classpath root, e.g., "tts-output/twinkle.mp3"
      * @throws IOException if writing fails
      */
     public static void writeFile(byte[] content, Path path) throws IOException {
-        // Find the classpath root (usually 'target/classes' during Maven build/run)
+        // Find the classpath root (usually 'target/test-classes' during Maven build/run)
         URL classpathRoot = FileWriterUtil.class.getClassLoader().getResource("");
 
         File fullPath = new File(classpathRoot.getPath(), path.toString());
@@ -38,8 +38,8 @@ public class FileWriterUtil {
      * @return the content of the file as a String
      * @throws IOException if reading fails
      */
-    public static String readTextFile(Path path) throws IOException {
-        // Find the classpath root (usually 'target/classes' during Maven build/run)
+    public static String readFile(Path path) throws IOException {
+        // Find the classpath root (usually 'target/test-classes' during Maven build/run)
         URL classpathRoot = FileWriterUtil.class.getClassLoader().getResource("");
 
         File fullPath = new File(classpathRoot.getPath(), path.toString());
@@ -50,5 +50,4 @@ public class FileWriterUtil {
         }
         return text;
     }
-
 }

@@ -19,7 +19,7 @@ public class TtsService {
             .apiKey(API_KEY)
             .build();
         OpenAiAudioSpeechOptions speechOptions = OpenAiAudioSpeechOptions.builder()
-            .model("tts-1")
+            .model(OpenAiAudioApi.TtsModel.TTS_1_HD.value)
             .voice(OpenAiAudioApi.SpeechRequest.Voice.CORAL)
             .speed(0.75f)
             .responseFormat(OpenAiAudioApi.SpeechRequest.AudioResponseFormat.MP3)
