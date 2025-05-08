@@ -1,0 +1,76 @@
+
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+scale 1
+skinparam padding 0
+skinparam ranksep 50
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+interface "SpeechModel" as sm {
+    +call(String message): byte[]
+    +call(SpeechPrompt prompt): SpeechResponse
+}
+
+class "SpeechResponse" as sr {
+    +getResult(): Speech
+    +getResults(): List<Speech>
+}
+
+class "Speech" as s {
+    +getMetadata(): OpenAiAudioSpeechMetadata
+    +getOutput(): byte[]
+}
+
+class "OpenAiAudioSpeechModel" as oasm {
+    Constructors..
+    ..
+    +call(String message): byte[]
+    +call(SpeechPrompt prompt): SpeechResponse
+}
+
+class "OpenAiAudioSpeechOptions" as oo {
+    -input: String
+    -model: String
+    -voice: String
+    -speed: Float
+    +builder():OpenAiAudioSpeechOptions.Builder
+    ..
+    Other getter and setter methods..
+}
+
+class "OpenAiAudioSpeechOptions.Builder" as oob {
+    +build():OpenAiAudioSpeechOptions
+    +input(input: String): OpenAiAudioSpeechOptions.Builder
+    +model(model: String): OpenAiAudioSpeechOptions.Builder
+    +voice(voice: String): OpenAiAudioSpeechOptions.Builder
+    +speed(speed: Float): OpenAiAudioSpeechOptions.Builder
+}
+class "SpeechPrompt" as sp {
+    +SpeechPrompt(String instructions, OpenAiAudioSpeechOptions options)
+    +SpeechPrompt(String instructions)
+    ..
+    Other constructors..
+}
+
+
+oasm -up-|> sm:implements
+oasm -down-> sr:returns
+sr -down-> s:uses
+oo -down-> oob:encloses
+oasm -right-> sp:uses
+sp -down-> oo:uses
+@enduml
