@@ -8,6 +8,4 @@ public class TextToSpeechApplication {
     public static void main(String[] args) {
         SpringApplication.run(TextToSpeechApplication.class, args);
     }
-
-
 }
