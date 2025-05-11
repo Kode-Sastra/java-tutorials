@@ -51,7 +51,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
+ <!--   <repositories>
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
@@ -68,7 +68,7 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-    </repositories>
+    </repositories>-->
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
