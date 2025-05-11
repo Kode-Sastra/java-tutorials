@@ -8,3 +8,4 @@ This module contains source codes related to the articles on Spring AI.
 - [**Spring AI Advisors API**](https://www.kodesastra.com/2025/01/spring-ai-advisors-api.html)
 - [**Spring AI Image Model API**](https://www.kodesastra.com/2025/02/spring-ai-image-model-api.html)
 - [**Spring AI's Transcription API**](https://www.kodesastra.com/2025/03/spring-ai-transcription-api.html)
+- [**Spring AI's Text-to-Speech API**](https://www.kodesastra.com/2025/05/spring-ais-text-to-speech-api.html.html)
