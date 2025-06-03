@@ -13,7 +13,7 @@ import org.testcontainers.containers.Container;
 import org.testcontainers.ollama.OllamaContainer;
 
 public class OllamaContainerLiveTest {
-    private static Logger logger = LoggerFactory.getLogger(OllamaContainerLiveTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(OllamaContainerLiveTest.class);
 
     static OllamaContainer ollamaContainer;
     private static final String OLLAMA_IMAGE = "ollama/ollama:latest";
@@ -45,13 +45,15 @@ public class OllamaContainerLiveTest {
     @Test
     void test() throws IOException, InterruptedException {
         String prompt = """
+            Context:
             The sun is a star located at the center of our solar system.
             It provides the Earth with heat and light, making life possible.
             The sun is composed mostly of hydrogen and helium
             and generates energy through nuclear fusion."
             Question: What two gases make up most of the sun?
-            Please answer strictly from the information provided.
-            Keep the answer short and concise."
+            Instructions:
+            Please answer strictly from the context provided in the prompt and no other additional
+            should be provided.Also, keep the answer short and concise."
             """;
         Container.ExecResult execResult =
             ollamaContainer.execInContainer("ollama", "run", LLM, prompt);
