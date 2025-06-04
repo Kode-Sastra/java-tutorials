@@ -99,6 +99,7 @@
 
     <modules>
         <module>springboot-modules</module>
+        <module>testContainers</module>
     </modules>
 
     <properties>
@@ -112,6 +113,7 @@
         <junit-jupiter.version>5.10.3</junit-jupiter.version>
         <junit-jupiter-engine.version>5.10.3</junit-jupiter-engine.version>
         <hsqldb.version>2.7.3</hsqldb.version>
+        <testcontainers.version>1.21.1</testcontainers.version>
     </properties>
 
 </project>
