@@ -16,9 +16,9 @@ import com.kodesastra.ai.advisors.entity.User;
 
 @SpringBootTest
 @ActiveProfiles("sa")
-public class AdvisorUnitTest {
+public class AdvisorLiveTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdvisorUnitTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdvisorLiveTest.class);
 
     @Autowired
     ChatModel chatModel;
