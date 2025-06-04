@@ -99,11 +99,10 @@
 
     <modules>
         <module>springboot-modules</module>
+        <module>testContainers</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <maven-pmd.version>3.25.0</maven-pmd.version>
         <maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -112,6 +111,7 @@
         <junit-jupiter.version>5.10.3</junit-jupiter.version>
         <junit-jupiter-engine.version>5.10.3</junit-jupiter-engine.version>
         <hsqldb.version>2.7.3</hsqldb.version>
+        <testcontainers.version>1.21.1</testcontainers.version>
     </properties>
 
 </project>
