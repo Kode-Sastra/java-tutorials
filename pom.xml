@@ -103,8 +103,6 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <maven-pmd.version>3.25.0</maven-pmd.version>
         <maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
