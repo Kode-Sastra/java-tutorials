@@ -1,0 +1,57 @@
+
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+scale 1
+skinparam padding 0
+skinparam ranksep 50
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+'important Spring AI Ollama classes
+class "OllamaChatModel" as ocm {
+  +call(Prompt prompt): ChatResponse
+  }
+
+class "ChatResponse" as cr {
+  +getResult(): Generation
+}
+
+class "OllamaOptions" as oo {
+  +builder(): OllamaOptions.Builder
+  +getTemperature(): Double
+  +getModel(): OllamaModel
+  ..
+  <i>Other methods to set and get Ollama options
+  }
+
+class "Prompt" as p {
+  +Prompt(String prompt,  OllamaOptions.Builder builder)
+  +builder(): Prompt.Builder
+}
+
+class "OllamaOptions.Builder" as ob {
+  +temperature(Double temperature): Prompt.Builder
+  +model(OllamaModel model)
+  +build(): OllamaOptions
+  ..
+  <i>Other methods to build Ollama options
+}
+
+ocm .down.> p : uses
+ocm -up-> cr : call(Prompt):ChatResponse
+oo +-down- ob : static nested
+p .up.> ob : uses
+@enduml
