@@ -37,10 +37,11 @@ class SpringAiOllamaDefaultConfigLiveTest {
 	private OllamaChatModel ollamaChatModel;
 
 	@BeforeAll
-    public void setup() throws IOException, InterruptedException {
-        //print the Ollama URL and port
-        logger.info("Ollama URL: {}, port: {}", ollamaContainer.getEndpoint(), ollamaContainer.getPort());
-		Container.ExecResult execResult = ollamaContainer.execInContainer("ollama", "pull", OllamaModel.LLAMA3_2.getName());
+	public void setup() throws IOException, InterruptedException {
+		//print the Ollama URL and port
+		logger.info("Ollama URL: {}, port: {}", ollamaContainer.getEndpoint(), ollamaContainer.getPort());
+		Container.ExecResult execResult = ollamaContainer.execInContainer("ollama", "pull",
+			OllamaModel.LLAMA3_2.getName());
 		if (execResult.getExitCode() != 0) {
 			logger.error("Failed to pull model: {}", execResult.getStderr());
 			throw new IOException("Failed to pull model: " + execResult.getStderr());
@@ -50,7 +51,7 @@ class SpringAiOllamaDefaultConfigLiveTest {
 	@Test
 	void givenDefaultOllamaConnection_whenInvokedWithPrompt_thenResponds() {
 		logger.info("SpringAIOllamaLiveTest context loaded successfully.");
-        String prompt = """
+		String prompt = """
 			Context:
 			The Amazon rainforest is the largest tropical rainforest in the world, spanning several countries in South America.
 			It is home to a vast diversity of plant and animal species, many of which are not found anywhere else on Earth.
@@ -61,18 +62,18 @@ class SpringAiOllamaDefaultConfigLiveTest {
 			Keep the answer short and concise.
 			""";
 
-		ChatResponse response = ollamaChatModel.call(
-			new Prompt(prompt, OllamaOptions.builder()
-				.model(OllamaModel.LLAMA3_2)
-				.temperature(0.4)
-				.build()
-			));
-        assertThat(response.getResult().getOutput())
-            .isNotNull()
-            .extracting(output -> output.getText().toLowerCase())
-            .asString()
-            .contains("carbon dioxide");
+		ChatResponse response = ollamaChatModel.call(new Prompt(prompt, OllamaOptions.builder()
+			.model(OllamaModel.LLAMA3_2)
+			.temperature(0.4)
+			.build()));
+		assertThat(response.getResult()
+			.getOutput()).isNotNull()
+			.extracting(output -> output.getText().toLowerCase())
+			.asString()
+			.contains("carbon dioxide");
 
-		logger.info("Response: {}", response.getResult().getOutput().getText());
+		logger.info("Response: {}", response.getResult()
+			.getOutput()
+			.getText());
 	}
 }
