@@ -1,0 +1,68 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+scale 1
+skinparam padding 0
+skinparam ranksep 50
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+  ArrowColor #3C88A3
+  ArrowFontColor #3C88A3
+  hide empty attributes
+  skinparam Handwritten false
+  skinparam ClassBorderColor black
+  BackgroundColor #FFFFFF
+}
+
+interface ChatOptions {
+    +getTemperature()
+    +getMaxTokens()
+}
+
+class OpenAiChatOptions {
+    +getTemperature(): double
+    +getMaxTokens(): int
+    +getModel(): String
+    +builder():OpenAiChatOptions.Builder
+}
+
+class "OpenAiChatOptions.Builder" as ob {
+    +temperature(double):OpenAiChatOptions.Builder
+    +maxTokens(int):OpenAiChatOptions.Builder
+    +model(String):OpenAiChatOptions.Builder
+    +build(): OpenAiChatOptions
+}
+
+
+class "OpenAiChatModel" as om {
+    +call(Prompt prompt):ChatResponse
+    +call(Prompt prompt, OpenAiChatOptions chatOptions):ChatResponse
+    +call(String prompt):String
+    +getDefaultOptions():ChatOptions
+}
+
+class "Prompt" as p {
+  +Prompt(String prompt,  ChatOptions chatOptions)
+  +builder(): Prompt.Builder
+}
+
+class "ChatResponse" as cr {
+  +getResult(): Generation
+}
+
+ChatOptions <|.up. OpenAiChatOptions:implements
+
+ob ..> OpenAiChatOptions : builds
+
+om .down.> p : uses
+om -up-> cr : call(Prompt):ChatResponse
+om -right-> OpenAiChatOptions : uses
+
+
+@enduml
