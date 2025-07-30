@@ -10,6 +10,8 @@ This module contains source codes related to the articles on Spring AI.
 - [**Spring AI Image Model API**](https://www.kodesastra.com/2025/02/spring-ai-image-model-api.html)
 - [**Spring AI's Transcription API**](https://www.kodesastra.com/2025/03/spring-ai-transcription-api.html)
 - [**Spring AI's Text-to-Speech API**](https://www.kodesastra.com/2025/05/spring-ais-text-to-speech-api.html.html)
+- [**Running Spring AI Ollama with Testcontainers**](https://www.kodesastra.com/2025/06/spring-ai-ollama-with-testcontainers.html)
+- [**Spring AI Integration with Perplexity AI**](https://www.kodesastra.com/2025/07/spring-ai-integration-with-perplexity-ai.html)
 
 ## **Spring AI Qdrant**
 
