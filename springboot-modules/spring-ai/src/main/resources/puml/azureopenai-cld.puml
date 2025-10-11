@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+set namespaceSeparator none
+allowmixing
+hide empty attributes
+'skinparam Handwritten false
+skinparam ClassBorderColor black
+skinparam BackgroundColor #F0EDDE
+skinparam ClassAttributeFontColor #222222
+skinparam ClassFontStyle bold
+
+skinparam class {
+ArrowColor #3C88A3
+ArrowFontColor #3C88A3
+hide empty attributes
+skinparam Handwritten false
+skinparam ClassBorderColor black
+BackgroundColor #FFFFFF
+}
+together {
+    class "AzureOpenAIChatModel" as acm {
+      +call(Prompt prompt): ChatResponse
+      +call(String prompt): String
+      +getDefaultOptions(): AzureOpenAiChatOptions
+    }
+    class "AzureOpenAiChatModel.Builder" as ab {
+      +defaultOptions(AzureOpenAiChatOptions options): AzureOpenAiChatModel.Builder
+      +build(): AzureOpenAIChatModel
+    }
+    class "AzureOpenAiChatOptions" as ao {
+      +getTemperature(): Double
+      +getMaxTokens(): Integer
+      +getModel(): String
+      +builder(): AzureOpenAiChatOptions.Builder
+    }
+
+}
+
+class "AzureOpenAiChatOptions.Builder" as aob {
+  +temperature(Double temperature): AzureOpenAiChatOptions.Builder
+  +maxTokens(Integer maxTokens): AzureOpenAiChatOptions.Builder
+  +model(String model): AzureOpenAiChatOptions.Builder
+  +build(): AzureOpenAiChatOptions
+}
+aob -down[hidden]- acm : dummy
+acm <-down- ab : static nested
+aob -left-> ao : static nested
+acm .up.> ao : uses
+@enduml
