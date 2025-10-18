@@ -1,6 +1,7 @@
 package com.ks.azureopenai;
 
 import org.springframework.ai.azure.openai.AzureOpenAiChatModel;
+import org.springframework.ai.chat.prompt.Prompt;
 
 public class ChatService {
 
@@ -10,9 +11,10 @@ public class ChatService {
         this.chatModel = chatModel;
     }
 
-    public String chat(String message) {
-        return chatModel.call(message);
+    public String chat(Prompt prompt) {
+        return chatModel.call(prompt)
+            .getResult()
+            .getOutput()
+            .getText();
     }
-
-
 }
