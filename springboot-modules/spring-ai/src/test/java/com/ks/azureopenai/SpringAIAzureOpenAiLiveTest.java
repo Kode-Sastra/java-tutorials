@@ -52,7 +52,7 @@ public class SpringAIAzureOpenAiLiveTest {
     }
 
     @Test
-    void givenProgrammaticallyConfiguredClient_whenQueryAzureOpenAiDeployment_thenReturnResponse() {
+    void givenProgrammaticallyConfiguredClient_whenQueryLLM_thenRespond() {
         String query = "TechVerse Solutions provides cloud " +
             "integration services for what type of companies?";
         String context = vectorDBStore.fetchContextFromVectorDB(query);
@@ -83,7 +83,7 @@ public class SpringAIAzureOpenAiLiveTest {
     }
 
     @Test
-    void givenAutoConfiguredClient_whenQueryAzureOpenAiDeployment_thenReturnResponse() {
+    void givenAutoConfiguredClient_whenQueryLLM_thenRespond() {
         String query = "TechVerse Solutions provides cloud " +
             "integration services for what type of companies?";
         String context = vectorDBStore.fetchContextFromVectorDB(query);
