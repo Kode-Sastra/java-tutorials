@@ -1,0 +1,30 @@
+spring:
+  ai:
+    azure:
+      openai:
+        api-key: FSP-xxxx
+        endpoint: https://xxxxx-eastus2.cognitiveservices.azure.com/
+        chat:
+          options:
+            deployment-name: gpt-4.1
+            temperature: 1
+
+    mcp:
+      client:
+        name: event-resolver-client
+        version: 1.0.0
+        enabled: true
+        type: SYNC
+        toolcallback:
+          enabled: true
+        sse:
+          connections:
+            event-resolver-mcp:
+              url: http://localhost:8080             
+              sse-endpoint: /mcp/sse
+              sse-message-endpoint: /mcp/messages
+
+logging:
+  level:
+    root: INFO
+    com.ks.mcp.service: DEBUG

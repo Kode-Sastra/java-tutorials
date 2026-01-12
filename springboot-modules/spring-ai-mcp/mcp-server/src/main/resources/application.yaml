@@ -1,0 +1,17 @@
+spring:
+  ai:
+    mcp:
+      server:
+        enabled: true
+        type: SYNC
+        stdio: false
+        sse-message-endpoint: /mcp/messages
+        sse-endpoint: /mcp/sse
+        version: 2024-11-05
+        annotation-scanner:
+          enabled: true
+
+logging:
+  level:
+    io.modelcontextprotocol.server: DEBUG
+    org.springframework.ai.mcp: DEBUG
