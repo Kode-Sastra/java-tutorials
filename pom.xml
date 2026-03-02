@@ -99,6 +99,7 @@
 
     <modules>
         <module>springboot-modules</module>
+        <module>springboot-modules2</module>
         <module>testContainers</module>
     </modules>
 

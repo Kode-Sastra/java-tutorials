@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: spring-ai-azureopenai
+  
+  ai:
+    azure:
+      openai:
+        api-key: <<AZURE OPENAI DEPLOYMENT API KEY>>
+        endpoint: <<AZURE OPENAI DEPLOYMENT ENDPOINT>>
+        chat:
+          options:
+            user: springai-azureopenai-user
+            deployment-name: gpt-5-mini
+            temperature: 1
+        embedding:
+          options:
+            deployment-name: text-embedding-ada-002
+            model: text-embedding-ada-002
+
+    vectorstore:
+      opensearch:
+        uris: http://192.168.1.36:9200
+        index-name: book-index
+        initialize-schema: true
+        similarity-function: cosinesimil      
