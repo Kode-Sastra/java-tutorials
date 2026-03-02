@@ -20,6 +20,7 @@ This module contains source code related to the articles on Spring AI.
 - [Running Spring AI Ollama with Testcontainers](https://www.kodesastra.com/2025/06/spring-ai-ollama-with-testcontainers.html)
 - [Spring AI Integration with Perplexity AI](https://www.kodesastra.com/2025/07/spring-ai-integration-with-perplexity-ai.html)
 - [Spring AI - Azure Open AI Integration](https://www.kodesastra.com/2025/10/spring-ai-azure-open-ai-integration.html)
+- [Spring AI - Implement RAG with OpenSearch and Azure OpenAI](https://www.kodesastra.com/2026/03/implement-rag-with-spring-ai-and-opensearch.html)
 
 ### Spring AI MCP
 This module contains source code related to articles and examples using Spring AI MCP.
