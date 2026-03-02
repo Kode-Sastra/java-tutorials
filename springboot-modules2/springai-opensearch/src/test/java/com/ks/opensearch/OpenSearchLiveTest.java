@@ -26,9 +26,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class OpenSearchUnitTest {
+public class OpenSearchLiveTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(OpenSearchUnitTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(OpenSearchLiveTest.class);
 
     @Autowired
     private OpenSearchVectorStore vectorStore;
