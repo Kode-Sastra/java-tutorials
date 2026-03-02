@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Map;
-
-//import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
@@ -39,8 +39,8 @@ public class OpenSearchUnitTest {
     @Autowired
     private AzureOpenAiChatModel azureOpenAiChatModel;
 
-    //@Test
-    //@Order(1)
+    @Test
+    @Order(1)
     void whenSaveDocChunks_thenDocumentsAddedToVectorStore() {
         ParagraphPdfDocumentReader paragraphPdfDocumentReader = new ParagraphPdfDocumentReader(filePath);
         TokenTextSplitter tokenTextSplitter = new TokenTextSplitter();
@@ -58,7 +58,7 @@ public class OpenSearchUnitTest {
         "What is Inversion of Control in Spring Framework?",
         "What happens in Autumn season?"
     })
-    //@Order(2)
+    @Order(2)
     void whenSearch_thenRelevantDocumentsReturned(String userQuery) {
         Message userMessage = new UserMessage(userQuery);
 
@@ -71,7 +71,7 @@ public class OpenSearchUnitTest {
 
         """);
 
-        List<Document> relevantDocuments = vectorStore.similaritySearch(userQuery);
+        List<Document> relevantDocuments = vectorStore.similaritySearch(userQuery); 
 
         assertThat(relevantDocuments).isNotEmpty().hasSizeGreaterThan(0);
 
@@ -79,6 +79,7 @@ public class OpenSearchUnitTest {
                 .map(Document::getText)
                 .reduce((a, b) -> a + "\n" + b)
                 .orElse("");
+                   
         Message systemMessage = systemPromptTemplate
                 .createMessage(Map.of("context", contextContent));
 
@@ -86,8 +87,8 @@ public class OpenSearchUnitTest {
         ChatResponse chatResponse = azureOpenAiChatModel.call(prompt);
 
         assertThat(chatResponse.getResult().getOutput().getText()).isNotEmpty();
-
-        logger.info("Response: {}", chatResponse.getResult().getOutput().getText());
+        
+        logger.info("User query: {}", userQuery);
+        logger.info("Chat Response: {}", chatResponse.getResult().getOutput().getText());
     }
-
 }

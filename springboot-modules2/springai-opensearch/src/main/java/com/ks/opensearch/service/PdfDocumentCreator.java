@@ -13,5 +13,4 @@ public class PdfDocumentCreator {
         TokenTextSplitter splitter = new TokenTextSplitter();
         return splitter.transform(pdfReader.get());
     }
-
 }

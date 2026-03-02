@@ -5,8 +5,8 @@ spring:
   ai:
     azure:
       openai:
-        api-key: <<ENTER YOUR AZURE OPENAI  API KEY>>
-        endpoint: https://opensearch-demo-embedding.cognitiveservices.azure.com
+        api-key: <<AZURE OPENAI DEPLOYMENT API KEY>>
+        endpoint: <<AZURE OPENAI DEPLOYMENT ENDPOINT>>
         chat:
           options:
             user: springai-azureopenai-user
